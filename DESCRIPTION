@@ -1,0 +1,23 @@
+Package: VariPath
+Title: Identify novel pathway shifts associated with perturbations in single-cell RNA-seq data using a varimax rotation of scRNA-seq PCA.
+Version: 0.0.0.9000
+Authors@R: 
+    person("S", "Sobti", , "sobtisushil@gmail.com", role = c("aut", "cre"))
+Description: Identify novel pathway shifts associated with perturbations in single-cell RNA-seq data using a varimax rotation of scRNA-seq PCA.
+License: MIT + file LICENSE
+Imports:
+    Seurat,
+    utils,
+    enrichR,
+    ggplot2,
+    dplyr,
+    tidyr,
+    ggtree,
+    cowplot,
+    patchwork,
+    aplot,
+    igraph,
+    viridis
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
