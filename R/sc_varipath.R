@@ -189,6 +189,6 @@ sc_varipath <- function(seurat_obj, perturbation_column = NULL, enrichR_dbs = 'G
 
     ### adjacency_table return for plot C (RC_to_pathway) ----------------------------------------
 
-    return(list(vari_weights = vari_weights, fitted_models = fitted_models, fit_pvals_adj = fit_pvals_adj, perturbation_RC_df = perturbation_RC_df, weights_dataframe = weights_dataframe, adjacency_table = adjacency_table))
+    return(list(vari_weights = vari_weights, fitted_models = fitted_models, fit_pvals_adj = fit_pvals_adj, perturbation_RC_df = perturbation_RC_df, weights_dataframe = weights_dataframe, adjacency_table = adjacency_table, significant_RCs = significant_RCs, FDR = FDR))
     
 }
