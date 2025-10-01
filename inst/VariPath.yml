@@ -1,0 +1,28 @@
+name: VariPath
+channels:
+  - conda-forge
+  - defaults
+  - bioconda
+dependencies:
+  - python
+  - ipykernel
+  - jupyter-lsp-python
+  - jupyter-lsp-r
+  - nomkl
+  - jupyter_contrib_nbextensions
+  - r-base
+  - r-essentials
+  - r-devtools
+  - r-ggplot2
+  - r-tidyr
+  - r-dplyr
+  - r-Seurat=5.3.0
+  - r-r.utils
+  - r-enrichr=3.4
+  - r-cowplot
+  - r-patchwork
+  - r-aplot=0.2.9
+  - r-igraph
+  - r-viridis
+  - bioconda::bioconductor-ggtree
+  - pip
