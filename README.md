@@ -3,7 +3,9 @@
 ## Overview
 
 This package identifies novel pathway shifts in scRNA-seq data using large shifts in 
-varimax rotation component space of samples from a control.
+varimax rotation component space of samples from a control. It creates a linear model
+between your samples and the control to identify which rotated component most corresponds
+to each sample allowing novel pathway discovery of perturbations.
 
 ## Installation
 
@@ -29,7 +31,7 @@ devtools::install_github("ssobt/VariPath", upgrade = "never", lib = "/VariPath_p
 
 ## Usage
 
-Comparing heterogeneity between two bulk RNA-seq samples or between groups of samples
+Identify and plot pathways associated with each perturbation
 
 ``` r
 .libPaths("/VariPath_package_destination_folder/") ## add location of package to searchable library paths
@@ -42,7 +44,10 @@ out = sc_varipath(seurat_obj = adata.R, perturbation_column = 'miR.family')
 
 ## Plot ##
 
-options(repr.plot.width = 20, repr.plot.height = 10)
+options(repr.plot.width = 20, repr.plot.height = 10) ## edit to change plot dimensions
 plot_sc_varipath(sc_varipath_out = out, type = 'perturbation_to_RC')
+
+
+plot_sc_varipath(sc_varipath_out = out, type = 'RC_to_pathway')
 
 ```
