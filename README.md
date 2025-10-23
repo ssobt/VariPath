@@ -31,7 +31,7 @@ devtools::install_github("ssobt/VariPath", upgrade = "never", lib = "/VariPath_p
 
 ## Usage
 
-Identify and plot pathways associated with each perturbation
+Identify and plot pathway shifts associated with each perturbation
 
 ``` r
 .libPaths("/VariPath_package_destination_folder/") ## add location of package to searchable library paths
