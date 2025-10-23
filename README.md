@@ -53,6 +53,5 @@ plot_sc_varipath(sc_varipath_out = out, type = 'perturbation_to_RC')
 
 
 plot_sc_varipath(sc_varipath_out = out, type = 'RC_to_pathway')
-
 ```
 <img src="inst/varipath_git_desc.png" alt="Output of plot_sc_varipath()"  />
