@@ -7,6 +7,10 @@ varimax rotation component space of samples from a control. It creates a linear 
 between your samples and the control to identify which rotated component most corresponds
 to each sample allowing novel pathway discovery of perturbations.
 
+This package utilizes [enrichR](https://maayanlab.cloud/Enrichr/) on the 
+backend for identifying pathways using gene set enrichment from genes with high 
+weights in their respective perturbation-associated rotated component.
+
 ## Installation
 
 - Install the latest version from
