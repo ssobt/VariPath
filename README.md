@@ -5,7 +5,10 @@
 This package identifies novel pathway shifts in scRNA-seq data using large shifts in 
 varimax rotation component space of samples from a control. It creates a linear model
 between your samples and the control to identify which rotated component most corresponds
-to each sample allowing novel pathway discovery of perturbations.
+to each sample allowing novel pathway discovery of perturbations. This package is orginally
+tested on data with small RNA perturbations (miRNA and tRNA fragments) but is more broadly 
+applicable to other perturbations where the effect on the transcriptome from a perturbation 
+is being studied such as drug treatment or mRNA knockdown.
 
 This package utilizes [enrichR](https://maayanlab.cloud/Enrichr/) on the 
 backend for identifying pathways using gene set enrichment from genes with high 
