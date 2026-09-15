@@ -1,0 +1,155 @@
+---
+title: "Getting started with VariPath"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with VariPath}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = FALSE)
+```
+
+> Code in this vignette is shown but not executed — the workflow needs a
+> Perturb-seq Seurat object that is too large to ship with the package.
+
+## What problem this solves
+
+A Perturb-seq experiment gives you, for every cell, both a perturbation label
+and a full transcriptome. The natural question — *which biological pathways did
+each perturbation move?* — is awkward to answer from principal components
+directly, because PCs are dense: almost every gene loads onto almost every
+component, so handing a PC's gene list to an enrichment tool returns something
+vague.
+
+VariPath applies a **varimax rotation** to the component space. Varimax
+redistributes variance so that each rotated component is loaded heavily by a
+smaller set of genes and near-zero by the rest. The subspace spanned is
+unchanged; what changes is interpretability. Sparser loadings mean a cleaner
+gene set per component, which means a sharper enrichment result — a better
+signal-to-noise ratio for perturbation-to-pathway association than the
+comparable methods we benchmarked against.
+
+The pipeline is:
+
+```
+Seurat object (PCA run)
+      │
+      ├─ varimax-rotate the PC space           ──►  vari_weights
+      ├─ fit perturbation ~ rotated component  ──►  fitted_models, fit_pvals_adj
+      └─ enrichR on each component's top genes ──►  adjacency_table
+```
+
+## Installation
+
+```{r}
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github("ssobt/VariPath")
+```
+
+Dependencies are declared in `DESCRIPTION`, but a few — `ggtree` and `aplot` in
+particular — come from Bioconductor and may need installing by hand:
+
+```{r}
+if (!require("BiocManager")) install.packages("BiocManager")
+BiocManager::install("ggtree")
+install.packages(c("enrichR", "aplot"))
+```
+
+A conda environment is recommended if you are managing several Bioconductor
+packages at once.
+
+## Input
+
+You need a `Seurat` object that
+
+1. has **PCA already run** (`Seurat::RunPCA()`), and
+2. carries a metadata column identifying each cell's perturbation.
+
+```{r}
+library(Seurat)
+library(VariPath)
+
+# `adata` here is a Seurat object with a 'miR.family' column in its metadata
+# giving the decoy / guide identity of each cell.
+head(adata@meta.data[["miR.family"]])
+```
+
+## Running the analysis
+
+```{r}
+out <- sc_varipath(
+  seurat_obj          = adata,
+  perturbation_column = "miR.family",
+  enrichR_dbs         = "GO_Biological_Process_2021",
+  loading_cutoff      = 0.1,
+  FDR                 = 0.25
+)
+```
+
+Arguments worth thinking about:
+
+| Argument | Meaning |
+|---|---|
+| `perturbation_column` | Metadata column holding each cell's perturbation identity. |
+| `enrichR_dbs` | Which enrichR libraries to query. Multiple are allowed. |
+| `loading_cutoff` | How heavily a gene must load on a rotated component to be included in that component's gene set. Raise it for stricter, smaller sets. |
+| `FDR` | Threshold for calling a perturbation-component association significant. |
+
+`sc_varipath()` returns a list:
+
+| Element | Contents |
+|---|---|
+| `vari_weights` | Varimax gene weights per rotated component. |
+| `fitted_models` | Linear models of perturbation against each component. |
+| `fit_pvals_adj` | Adjusted p-values for those associations. |
+| `perturbation_RC_df` | Tidy perturbation-to-component table, for plotting. |
+| `weights_dataframe` | Gene loadings, for plotting. |
+| `adjacency_table` | Top three associated pathways per component. |
+
+**Save the result immediately.** The object is expensive to recompute, and the
+plotting functions can exhaust memory on large datasets — losing the fit to an
+OOM part-way through plotting is an avoidable annoyance:
+
+```{r}
+saveRDS(out, "varipath_out.rds")
+```
+
+## Plotting
+
+Two views, selected with `plot_type`:
+
+```{r}
+# Which perturbations move which rotated components
+plot_sc_varipath(out, plot_type = "perturbation")
+
+# Which pathways each rotated component corresponds to
+plot_sc_varipath(out, plot_type = "pathway")
+```
+
+## Interpreting the output
+
+A rotated component is not a pathway; it is an axis of coordinated expression
+that *enriches for* a pathway. Two practical consequences:
+
+- **A perturbation can load onto several components.** That is usually real —
+  few perturbations affect exactly one coherent process — rather than a failure
+  to converge.
+- **Check the gene set, not just the pathway name.** `vari_weights` is there so
+  you can see which genes drove an enrichment call before you believe it. A
+  component whose top loadings are ribosomal or mitochondrial genes is often
+  reporting technical structure rather than biology.
+
+## Related work
+
+`VariPath` came out of the Decoy-seq study, which screened regulatory small
+non-coding RNAs by Perturb-seq:
+
+> Choi B\*, Sobti S\*, Soto LM, Charbonneau T, Sababi A, Navickas A,
+> Najafabadi HS, Goodarzi H. *Decoy-seq unlocks scalable genetic screening for
+> regulatory small noncoding RNAs.* bioRxiv 2025.
+> [doi:10.1101/2025.01.25.634869](https://doi.org/10.1101/2025.01.25.634869)
+
+For quantifying *heterogeneity* rather than pathway shifts, see
+[txnheterogeneity](https://github.com/ssobt/txnheterogeneity).

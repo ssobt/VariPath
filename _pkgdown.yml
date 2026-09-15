@@ -1,0 +1,43 @@
+url: https://ssobt.github.io/VariPath
+
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#0A0C10"
+    fg: "#E6EDF3"
+    primary: "#35B779"
+    secondary: "#8B98A9"
+    border-color: "#1E2530"
+    code-bg: "#11151C"
+
+navbar:
+  bg: dark
+  structure:
+    left:  [intro, reference, articles]
+    right: [site, github]
+  components:
+    site:
+      text: ssobt.github.io
+      href: https://ssobt.github.io
+
+home:
+  title: VariPath — pathway shifts in Perturb-seq data
+  description: >
+    Identify pathway shifts associated with perturbations in single-cell RNA-seq
+    data using a varimax rotation of principal component space.
+
+reference:
+- title: Analysis
+  desc: >
+    Fit perturbations against varimax-rotated components and associate those
+    components with biological pathways.
+  contents:
+  - sc_varipath
+- title: Visualisation
+  desc: Plot perturbation-to-component and component-to-pathway relationships.
+  contents:
+  - plot_sc_varipath
+
+authors:
+  S Sobti:
+    href: https://ssobt.github.io
