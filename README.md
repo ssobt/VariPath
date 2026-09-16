@@ -58,3 +58,26 @@ plot_sc_varipath(sc_varipath_out = out, type = 'perturbation_to_RC')
 plot_sc_varipath(sc_varipath_out = out, type = 'RC_to_pathway')
 ```
 <img src="man/figures/varipath_git_desc.png" alt="Output of plot_sc_varipath()"  />
+
+## Documentation
+
+Full documentation is at **[ssobt.github.io/VariPath](https://ssobt.github.io/VariPath/)**.
+
+- **[Getting started with VariPath](https://ssobt.github.io/VariPath/articles/VariPath.html)** —
+  a walkthrough vignette: why a varimax rotation makes principal components
+  interpretable enough to hand to enrichment, what `sc_varipath()` expects as
+  input, what each element of its output is for, and how to read a rotated
+  component without over-reading it.
+- **[Function reference](https://ssobt.github.io/VariPath/reference/index.html)** —
+  arguments and return values for `sc_varipath()` and `plot_sc_varipath()`.
+
+## Related
+
+- **[txnheterogeneity](https://github.com/ssobt/txnheterogeneity)** — quantifies
+  transcriptional and open-chromatin heterogeneity across bulk RNA-seq,
+  scRNA-seq, and scATAC-seq.
+- VariPath came out of the Decoy-seq study:
+  Choi B\*, Sobti S\*, Soto LM, Charbonneau T, Sababi A, Navickas A,
+  Najafabadi HS, Goodarzi H. *Decoy-seq unlocks scalable genetic screening for
+  regulatory small noncoding RNAs.* bioRxiv 2025.
+  [doi:10.1101/2025.01.25.634869](https://doi.org/10.1101/2025.01.25.634869)
