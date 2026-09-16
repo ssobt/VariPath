@@ -33,7 +33,7 @@ reference:
     components with biological pathways.
   contents:
   - sc_varipath
-- title: Visualisation
+- title: Visualization
   desc: Plot perturbation-to-component and component-to-pathway relationships.
   contents:
   - plot_sc_varipath
